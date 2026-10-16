@@ -1,8 +1,10 @@
 // Variables globales y configuración básica
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+const sonido = new Audio('img/salto.mp3');
 
-let gameSpeed = 5;           // Velocidad constante (los cambios se harán en la modificación)
+const initialGameSpeed = 5;
+let gameSpeed = initialGameSpeed;
 let gravity = 0.5;           // Fuerza de gravedad
 let gameOver = false;
 let score = 0;
@@ -11,9 +13,19 @@ let score2 = 0;
 // Objeto dinosaurio
 let dino = {
     x: 50,
-    y: canvas.height - 47,   // La altura del dino es de 47 px (se alinea al "suelo")
-    width: 44,
-    height: 47,
+    y: canvas.height - 57,   // La altura del dino es de 57 px (se alinea al "suelo")
+    width: 54,
+    height: 57,
+    vy: 0,
+    isJumping: false
+};
+
+// Dino rojo
+let dinoRojo = {
+    x: 50,
+    y: canvas.height - 57,   // La altura del dino es de 57 px (se alinea al "suelo")
+    width: 54,
+    height: 57,
     vy: 0,
     isJumping: false
 };
@@ -28,9 +40,9 @@ let obstacle = {
 
 // Carga de imágenes (ajusta las rutas según tu estructura)
 let dinoImg = new Image();
-dinoImg.src = "fotos/gojo";      // Asegúrate de tener esta imagen en la ruta indicada
+dinoImg.src = "img/dino.png";      // Asegúrate de tener esta imagen en la ruta indicada
 let cactusImg = new Image();
-cactusImg.src = "fotos/cactus.png";  // Asegúrate de tener esta imagen en la ruta indicada
+cactusImg.src = "img/cactus.png";  // Asegúrate de tener esta imagen en la ruta indicada
 
 // Función principal del ciclo de juego
 function gameLoop() {
@@ -44,6 +56,12 @@ function gameLoop() {
 // Actualiza posiciones y controla la lógica del juego
 function update() {
     score++;  // Suma puntos continuamente (1 punto por frame)
+    score2++;
+
+    if (score2 >= 100) {
+        score2 -= 100;
+        gameSpeed += 1.5;
+    }
     
     // Física del salto del dinosaurio
     if (dino.isJumping) {
@@ -56,16 +74,8 @@ function update() {
             dino.vy = 0;
         }
     }
-function update2() {
-    if (score2 >= 100) {
-        score2 -= 100;
-        gameSpeed += 1;} 
-       else {score2++; }
-        
-    };
-     // Suma puntos continuamente (1 punto por frame)
-    
 
+    
     // Mueve el obstáculo de derecha a izquierda
     obstacle.x -= gameSpeed;
     // Cuando el obstáculo sale por la izquierda, se reubica a la derecha con un espacio aleatorio
@@ -94,6 +104,11 @@ function collision(rect1, rect2) {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
+    //Puntaje para subir de velocidad
+    ctx.fillStyle = "#f700ff36";
+    ctx.font = "20px Arial";
+    ctx.fillText("Score2: " + score2, 30, 45);
+
     // Dibuja el puntaje
     ctx.fillStyle = "#000";
     ctx.font = "20px Arial";
@@ -121,6 +136,8 @@ document.addEventListener("keydown", function(e) {
     if (e.code === "Space" && !dino.isJumping && !gameOver) {
         dino.isJumping = true;
         dino.vy = -10;  // Velocidad inicial de salto
+        sonido.play();
+        
         // Aquí se podrá agregar el efecto de sonido del salto en la modificación
         e.preventDefault(); // Evita el scroll de la página
     }
@@ -130,6 +147,8 @@ document.addEventListener("keydown", function(e) {
 document.getElementById("restartBtn").addEventListener("click", function() {
     gameOver = false;
     score = 0;
+    score2 = 0;
+    gameSpeed = initialGameSpeed;
     dino.y = canvas.height - dino.height;
     dino.isJumping = false;
     dino.vy = 0;
