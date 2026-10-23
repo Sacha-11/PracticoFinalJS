@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html>
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,12 +8,13 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
-  <!-- El canvas donde se desarrolla el juego -->
-  <canvas id="gameCanvas" width="600" height="150"></canvas>
-  
-  <!-- Botón de reinicio que aparecerá al finalizar el juego -->
-  <button id="restartBtn" style="display:none;">Reiniciar</button>
-  
+  <main class="game">
+    <canvas id="gameCanvas" width="600" height="150" aria-label="Juego del dinosaurio"></canvas>
+    <div class="controls">
+      <button id="manualRestartBtn" type="button">Reiniciar juego</button>
+      <button id="restartBtn" type="button" hidden>Volver a intentar</button>
+    </div>
+  </main>
   <script src="index.js"></script>
 </body>
-</html> 
+</html>

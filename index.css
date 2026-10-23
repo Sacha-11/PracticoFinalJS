@@ -1,16 +1,49 @@
-/* Estilos básicos para centrar el juego y darle un fondo limpio */
-html, body {
+html,
+body {
+    min-height: 100%;
     margin: 0;
-    padding: 0;
-    background: #f7f7f7;
+}
+
+body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    background: #f7f7f7;
+    font-family: Arial, sans-serif;
+}
+
+.game {
+    display: flex;
     flex-direction: column;
-  }
-  
-  canvas {
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+}
+
+canvas {
+    max-width: 100%;
     border: 1px solid #000;
     background: #fff;
-  }
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+button {
+    padding: 8px 14px;
+    border: 0;
+    border-radius: 4px;
+    background: #333;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #555;
+}
